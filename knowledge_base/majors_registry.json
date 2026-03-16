@@ -1,6 +1,40 @@
-{
-  "computer_science": {
-    "name": "Computer Science",
-    "folder": "Computer Science"
+[
+  {
+    "slug": "computer_science",
+    "display_name": "Computer Science",
+    "folder": "Computer Science",
+    "description": "Covers CS B.A., B.S., Minor, and Computational Mathematics degrees. Topics include programming courses (Java, C++, Haskell), algorithm analysis, artificial intelligence, computer systems, and senior software engineering capstone. Also includes department faculty, ACM/UPE clubs, and course placement via AP or transfer credit.",
+    "keywords": [
+      "programming",
+      "software",
+      "algorithms",
+      "CS",
+      "computer",
+      "coding",
+      "AI",
+      "data structures",
+      "computation",
+      "discrete math",
+      "database"
+    ]
+  },
+  {
+    "slug": "math",
+    "display_name": "Math",
+    "folder": "Math",
+    "description": "Covers Math B.A., B.S., and Minor degrees. Topics include calculus (I, II, III), linear algebra, real analysis, complex analysis, algebraic structures, and mathematical modeling. Includes ALEKS math placement guidelines, Math Club, Pi Mu Epsilon honor society, and research opportunities like SCOPE.",
+    "keywords": [
+      "math",
+      "mathematics",
+      "calculus",
+      "algebra",
+      "analysis",
+      "geometry",
+      "statistics",
+      "ALEKS",
+      "proofs",
+      "modeling",
+      "number theory"
+    ]
   }
-}
+]

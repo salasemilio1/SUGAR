@@ -23,7 +23,9 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(_PROJECT_ROOT / ".env")
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview")
+# DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemma-3n-e4b-it")
+
 
 if not GEMINI_API_KEY:
     print(
@@ -63,3 +65,27 @@ def generate(prompt: str, model: str | None = None) -> str:
     except Exception as exc:
         log.error("Gemini API call failed (model=%s): %s", model_name, exc)
         return f"[ERROR] LLM call failed: {exc}"
+
+
+def extract_json(text: str) -> str:
+    """Extract JSON from an LLM response, stripping markdown code blocks.
+
+    Args:
+        text: The raw text response from the LLM.
+
+    Returns:
+        The clean JSON string ready for json.loads().
+    """
+    text = text.strip()
+    
+    # Strip opening markdown block
+    if text.startswith("```json"):
+        text = text[len("```json"):]
+    elif text.startswith("```"):
+        text = text[len("```"):]
+        
+    # Strip closing markdown block
+    if text.endswith("```"):
+        text = text[:-len("```")]
+        
+    return text.strip()

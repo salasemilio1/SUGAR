@@ -12,7 +12,7 @@ import logging
 import re
 from pathlib import Path
 
-from pipeline.gemini_client import generate
+from pipeline.gemini_client import generate, extract_json
 from pipeline.prompts import retriever_prompt
 from pipeline.router import load_registry
 
@@ -149,10 +149,11 @@ def retrieve(question: str, major_slugs: list[str], base_path: str) -> list[dict
         # Ask Gemini which docs to load
         prompt = retriever_prompt(question, skills_text)
         raw_response = generate(prompt)
+        clean_json_str = extract_json(raw_response)
 
         # Parse the filename list
         try:
-            filenames = json.loads(raw_response)
+            filenames = json.loads(clean_json_str)
             if not isinstance(filenames, list):
                 raise ValueError(f"Expected JSON array, got: {type(filenames)}")
         except (json.JSONDecodeError, ValueError) as exc:

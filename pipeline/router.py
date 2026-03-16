@@ -10,7 +10,7 @@ import json
 import logging
 from pathlib import Path
 
-from pipeline.gemini_client import generate
+from pipeline.gemini_client import generate, extract_json
 from pipeline.prompts import router_prompt
 
 log = logging.getLogger(__name__)
@@ -45,7 +45,15 @@ def load_registry(base_path: str) -> dict:
         )
         raise SystemExit(1)
 
-    return json.loads(registry_path.read_text(encoding="utf-8"))
+    # Load list format and convert to slug-keyed dict for internal use
+    try:
+        data = json.loads(registry_path.read_text(encoding="utf-8"))
+        if isinstance(data, list):
+            return {item["slug"]: item for item in data}
+        return data  # Fallback if already a dict
+    except (json.JSONDecodeError, KeyError) as exc:
+        log.error("Failed to parse registry file: %s", exc)
+        raise SystemExit(1)
 
 
 # ── Core routing ──────────────────────────────────────────────────────────────
@@ -60,15 +68,20 @@ def route(question: str, base_path: str) -> list[str]:
     Returns:
         A list of major slug strings, e.g. ["computer_science"].
     """
+    # Load the registry for internal lookup
     registry = load_registry(base_path)
-    registry_json = json.dumps(registry, indent=2)
+    
+    # Read raw JSON to pass to the prompt (better for LLM context)
+    registry_path = Path(base_path) / REGISTRY_FILENAME
+    registry_json = registry_path.read_text(encoding="utf-8")
 
     prompt = router_prompt(question, registry_json)
     raw_response = generate(prompt)
+    clean_json_str = extract_json(raw_response)
 
     # Parse the JSON array from the LLM response
     try:
-        slugs = json.loads(raw_response)
+        slugs = json.loads(clean_json_str)
 
         if not isinstance(slugs, list):
             raise ValueError(f"Expected a JSON array, got: {type(slugs)}")
