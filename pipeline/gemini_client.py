@@ -1,8 +1,65 @@
 """
-    entry point for the Gemini API
+Gemini API client — the only file that knows how to talk to the LLM.
 
-    Later create a folder for LLM endpoints with a 
-    clean interface, promoting the interchangeability 
-    of LLM providers. Future proof the system
+All other modules call `generate()` and receive a plain string back.
+This keeps provider-specific logic isolated so swapping to another LLM
+later means editing only this file.
+"""
 
-""""
+import os
+import sys
+import logging
+from pathlib import Path
+
+from dotenv import load_dotenv
+from google import genai
+
+log = logging.getLogger(__name__)
+
+# ── Configuration ─────────────────────────────────────────────────────────────
+
+# Walk up from this file to the project root to find .env
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(_PROJECT_ROOT / ".env")
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
+if not GEMINI_API_KEY:
+    print(
+        "\n✖  GEMINI_API_KEY is not set.\n"
+        "   Add it to your .env file at the project root:\n"
+        f"   {_PROJECT_ROOT / '.env'}\n"
+    )
+    sys.exit(1)
+
+# ── Client setup ──────────────────────────────────────────────────────────────
+
+_client = genai.Client(api_key=GEMINI_API_KEY)
+
+
+# ── Public API ────────────────────────────────────────────────────────────────
+
+def generate(prompt: str, model: str | None = None) -> str:
+    """Send a prompt to Gemini and return the response text.
+
+    Args:
+        prompt: The full prompt string to send.
+        model:  Model name override. Defaults to DEFAULT_MODEL.
+
+    Returns:
+        The model's text response, or a fallback error string if the call fails.
+    """
+    model_name = model or DEFAULT_MODEL
+
+    try:
+        # TODO: Add retry logic here if needed for production (e.g. tenacity)
+        response = _client.models.generate_content(
+            model=model_name,
+            contents=prompt,
+        )
+        return response.text.strip()
+
+    except Exception as exc:
+        log.error("Gemini API call failed (model=%s): %s", model_name, exc)
+        return f"[ERROR] LLM call failed: {exc}"
