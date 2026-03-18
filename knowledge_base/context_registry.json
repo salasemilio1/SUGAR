@@ -19,6 +19,52 @@
     ]
   },
   {
+    "slug": "financial",
+    "display_name": "financial",
+    "folder": "financial",
+    "description": "This folder provides information on academic internships and experiential learning opportunities available through the Center for Integrative Learning. It details specific programs, including climate action summer schools and professional internship placements across various sectors, to help students gain applied experience.",
+    "keywords": [
+      "how to find an academic internship",
+      "are internships for credit",
+      "how do I apply for a funded internship",
+      "where can I do an internship",
+      "can I get credit for a summer internship",
+      "what is the Center for Integrative Learning",
+      "how do I get an internship through the university",
+      "are internships pass fail",
+      "how do I find professional development opportunities",
+      "how to get credit for experiential learning",
+      "what are the requirements for an internship",
+      "how to find internships in the environmental sector",
+      "can I do a virtual internship",
+      "how many hours do I need for an internship",
+      "what support is available for student internships"
+    ]
+  },
+  {
+    "slug": "general",
+    "display_name": "general",
+    "folder": "general",
+    "description": "This folder provides general university information, including Southwestern University's accreditation, institutional memberships, and nondiscrimination policies. It also covers academic testing procedures such as CLEP examinations, language placement requirements, and credit-by-exam policies.",
+    "keywords": [
+      "can I get college credit for CLEP exams",
+      "how do I fulfill the language requirement",
+      "what is the language placement exam",
+      "how to earn credit through advanced standing exams",
+      "what are the requirements for language exemption",
+      "is Southwestern University accredited",
+      "where can I find nondiscrimination policies",
+      "who do I contact for disability accommodations",
+      "can I repeat a language placement exam",
+      "how do I waive the foreign language requirement",
+      "how are credits awarded for subject examinations",
+      "what is the TOEFL requirement for language exemption",
+      "are CLEP general exams accepted for credit",
+      "where can I find the university mission and status",
+      "how do I report discrimination on campus"
+    ]
+  },
+  {
     "slug": "math",
     "display_name": "Math",
     "folder": "Math",
