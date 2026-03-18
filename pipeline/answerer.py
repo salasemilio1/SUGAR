@@ -10,7 +10,7 @@ conversational context.
 import logging
 from pathlib import Path
 
-from pipeline.gemini_client import generate
+from pipeline.gemini_client import generate, MODEL_ANSWERER
 from pipeline.prompts import answerer_prompt
 
 log = logging.getLogger(__name__)
@@ -94,7 +94,7 @@ def answer(question: str, doc_list: list[dict], history: list[dict]) -> str:
     history_block = format_history(history)
 
     prompt = answerer_prompt(question, context, history_block)
-    response = generate(prompt)
+    response = generate(prompt, model=MODEL_ANSWERER)
 
     # TODO: Add response quality checks here (e.g. verify citations exist)
     return response

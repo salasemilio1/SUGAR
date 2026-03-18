@@ -10,7 +10,7 @@ import json
 import logging
 from pathlib import Path
 
-from pipeline.gemini_client import generate, extract_json
+from pipeline.gemini_client import generate, extract_json, MODEL_ROUTER
 from pipeline.prompts import router_prompt
 
 log = logging.getLogger(__name__)
@@ -76,7 +76,7 @@ def route(question: str, base_path: str) -> list[str]:
     registry_json = registry_path.read_text(encoding="utf-8")
 
     prompt = router_prompt(question, registry_json)
-    raw_response = generate(prompt)
+    raw_response = generate(prompt, model=MODEL_ROUTER)
     clean_json_str = extract_json(raw_response)
 
     # Parse the JSON array from the LLM response

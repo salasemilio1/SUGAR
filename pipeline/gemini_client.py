@@ -23,8 +23,24 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent
 load_dotenv(_PROJECT_ROOT / ".env")
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite-preview")
-# DEFAULT_MODEL = os.getenv("GEMINI_MODEL", "gemma-3n-e4b-it")
+
+# ── Model Tiers ───────────────────────────────────────────────────────────────
+# We use separate model tiers for each pipeline stage to optimize for cost
+# and performance. Utility calls (routing/retrieval) use cheaper models.
+
+# Call 1: Router
+# Gemma 3 4b works for this, as we stress test the system, it wouldn't be a bad idea to upgrade to 12b or even 27b
+MODEL_ROUTER = os.getenv("MODEL_ROUTER", "gemma-3-4b-it")
+
+# Call 2: Retriever
+MODEL_RETRIEVER = os.getenv("MODEL_RETRIEVER", "gemini-3.1-flash-lite-preview")
+
+# Call 3: Answerer (Synthesis)
+MODEL_ANSWERER = os.getenv("MODEL_ANSWERER", "gemini-3.1-flash-lite-preview")
+# MODEL_ANSWERER = os.getenv("MODEL_ANSWERER", "gemma-3-27b-it")
+
+# Default fallback if no model is specified
+DEFAULT_MODEL = os.getenv("GEMINI_MODEL", MODEL_ANSWERER)
 
 
 if not GEMINI_API_KEY:

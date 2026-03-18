@@ -97,9 +97,9 @@ def main() -> None:
     print(
         "\n"
         "  ╔══════════════════════════════════════════════════╗\n"
-        "  ║     SU Computer Science Advising Assistant       ║\n"
+        "  ║  Southwestern University Advising Assistant      ║\n"
         "  ║                                                  ║\n"
-        "  ║  Ask any question about CS courses, degrees,     ║\n"
+        "  ║  Ask any question about courses, degrees,        ║\n"
         "  ║  faculty, clubs, or resources at Southwestern.   ║\n"
         "  ║                                                  ║\n"
         "  ║  Type 'exit' to quit or 'history' to review      ║\n"
@@ -121,7 +121,7 @@ def main() -> None:
 
         # ── Special commands ──────────────────────────────────────────────────
         if user_input.lower() in ("exit", "quit"):
-            print("\n  Goodbye! Good luck with your studies. 👋\n")
+            print("\n  Goodbye! 👋\n")
             break
 
         if user_input.lower() == "history":

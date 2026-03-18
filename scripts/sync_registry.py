@@ -35,7 +35,7 @@ if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
 try:
-    from pipeline.gemini_client import generate, extract_json
+    from pipeline.gemini_client import generate, extract_json, MODEL_ROUTER
 except ImportError as exc:
     print(
         f"\n✖  Cannot import pipeline.gemini_client: {exc}\n"
@@ -276,7 +276,7 @@ def generate_metadata(slug: str, content: str) -> dict | None:
         A dict with 'description' and 'keywords' keys, or None on failure.
     """
     prompt = _description_prompt(slug, content)
-    raw = generate(prompt)
+    raw = generate(prompt, model=MODEL_ROUTER)
 
     # extract_json handles markdown fences the LLM sometimes adds
     clean = extract_json(raw)
