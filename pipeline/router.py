@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 
 # ── Named constants ───────────────────────────────────────────────────────────
 
-REGISTRY_FILENAME = "majors_registry.json"
+REGISTRY_FILENAME = "context_registry.json"
 
 
 # ── File I/O ──────────────────────────────────────────────────────────────────
