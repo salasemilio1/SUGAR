@@ -1,7 +1,7 @@
 # SKILL: Major Skills File Generator
 # Southwestern University — Knowledge Assistant Ingestion Pipeline
-# Version: 1.0
-# Last Updated: 2025-03-14
+# Version: 2.0
+# Last Updated: 2026-03-18
 
 ---
 
@@ -46,16 +46,31 @@ decision lives or dies on the quality of this index.
 ```
 /knowledge_base
   /<major_slug>                    ← e.g., computer_science
-    skills_index.md                ← THIS FILE (output of ingestion)
+    skills_index.md                ← The output of using this skills file to create new skills for each major
     /docs
       /raw                         ← original PDFs (source of truth)
       /extracted                   ← .txt files (input to ingestion)
-  /general                         ← university-wide policies
+  /general                         ← university-wide academic policies (SU_General_Policies.txt)
+    skills_index.md
+    /docs
+      /raw
+      /extracted
+  /financial                       ← financial aid, tuition, fees, and student resources (SU_Resources_and_Financial.txt)
     skills_index.md
     /docs
       /raw
       /extracted
 ```
+
+### Known General Documents (Always Available for Cross-Reference)
+
+Two university-wide documents have already been ingested and apply to ALL majors:
+
+- **`SU_General_Policies.txt`** — 2025-2027 catalog. Covers: accreditation, Paideia curriculum, degree types (B.A., B.S., B.F.A., B.Mus., B.S.Ed.), all graduation requirements, academic rights, grading system (including Pass/D/F), attendance, registration deadlines, academic honors (Dean's List, Latin Praise, Departmental Honors, Paideia with Distinction), withdrawals, academic probation/dismissal/appeal procedures, transfer credit rules, credit by examination (AP, IB, CAPE, CLEP), language placement, and the course numbering system.
+
+- **`SU_Resources_and_Financial.txt`** — Covers: study abroad programs (London Semester, ISEP Exchange, NYAP, CHIP, CYA), funded internships (SURF, King Creativity Fund), health professions shadowing programs, financial aid, tuition and fee schedules, billing and payment procedures, tuition refund schedule, financial aid impact of withdrawal, and campus resources.
+
+When generating a major's `skills_index.md`, **always include cross-reference flags** (Section 7) pointing to these documents for any topic they cover that the major documents do not fully address.
 
 ### Input Format
 
@@ -122,7 +137,7 @@ SECTION 1 — METADATA BLOCK
 **Last Ingested:** [DATE]
 **Ingestion Model:** [MODEL_NAME]
 **Document Count:** [N]
-**Degree Paths Covered:** [e.g., B.S., B.A., Minor]
+**Degree Paths Covered:** [e.g., B.A., B.S., B.F.A., B.Mus., B.S.Ed., Minor — use only those applicable to this major]
 
 ---
 
@@ -135,7 +150,7 @@ Do not skip any file. The filename must match exactly as provided.
 
 ### [Human-Readable Document Title]
 - **filename:** `exact_filename.txt`
-- **document_type:** [one of: requirements | course_info | policy | advising | calendar | financial | general]
+- **document_type:** [one of: requirements | course_info | policy | advising | calendar | financial | general | resources]
 - **degree_relevance:** [one or more of: B.S. | B.A. | Minor | All | General]
 - **time_sensitive:** [true | false]
 - **catalog_year:** [e.g., 2024-2025 — or "N/A" if not time-sensitive]
@@ -162,7 +177,51 @@ Write a structured summary for each degree path available in this major.
 This section is the most frequently retrieved section for broad advising
 questions. Be complete — do not omit any requirement category.
 
-For each degree path (B.S., B.A., Minor, etc.):
+### SU Universal Graduation Requirements (All Degree Paths)
+
+These apply to ALL students regardless of major. Always include this block.
+Source: `SU_General_Policies.txt`
+
+| Requirement | Detail |
+|---|---|
+| Minimum Total Credits | 127 credits |
+| Minimum SU Residency Credits | 64 credits (last 32 must be in-residence) |
+| Minimum Overall GPA | 2.000 (both cumulative and SU-only) |
+| Minimum Major GPA | 2.000 average (no grade below C- counts toward major) |
+| Major Residency Requirement | At least 60% of major credits at SU |
+| Minor Residency Requirement | At least 12 credits at SU (if minor pursued) |
+| Graduation Application | "Application for Diploma" must be filed; financial holds block diploma |
+| Degree Conferral Dates | December, May, August only; Commencement held once per year in May |
+
+### SU Universal Curriculum Requirements (Paideia Framework)
+
+SU's general education model is called **Paideia**. Every major's degree plan is built on top of these shared requirements. Always note which Paideia requirements the major's courses satisfy.
+
+**Required for ALL degree paths (B.A., B.S., B.F.A., B.Mus., B.S.Ed.):**
+- First-Year Seminar (FYS) or Advanced-Entry Seminar (AES): 4 credits
+- Languages and Cultures: through third-semester proficiency (up to 12 credits; satisfied by placement exam, transfer credit, or SU coursework through level XX-164)
+- Fitness and Recreational Activity (FRA): 1 credit (one season of intercollegiate athletics may satisfy this)
+- Power and Justice (PJ) course: 1 course, 3-4 credits — **cannot be satisfied by transfer credit**
+- Exploration and Breadth: 6 courses from outside the major (18-24 credits), distributed as:
+  - Part I: one course from each of four areas: Fine Arts (FA), Humanities (H), Natural Sciences (NS), Social Sciences (ScS)
+  - Part II: one additional course from two of the four areas
+
+**Additional Requirements for B.S. only** (if not required in the major):
+- Biology (50-173/171 or 50-183/181): 4 credits
+- Chemistry (51-103/101): 4 credits
+- Mathematics (52-164): 4 credits
+- Physics (53-154): 4 credits
+- Two approved courses from different disciplines in the Natural Sciences Area completing year-long sequences: 8 credits
+- At least two additional course requirements in Natural Sciences Area or Psychology: credits vary
+
+**B.S. Restriction:** The first (or only) major must come from the Natural Sciences Area or Psychology.
+
+**Paideia with Distinction** (optional, not required for graduation):
+Students who complete a Paideia seminar, present at the Research and Creative Works Symposium, and complete one intensive Paideia option (Paideia Minor OR two approved Paideia experiences) earn this distinction. Apply sophomore/junior year. Deadlines: November 15 for December graduates, April 15 for May/August graduates.
+
+---
+
+For each degree path (B.A., B.S., B.F.A., B.Mus., B.S.Ed., Minor, etc.) offered in this major:
 
 ### [Degree Path Name] — e.g., B.S. in Computer Science
 
@@ -237,6 +296,8 @@ For each course:
 
 Group courses by prefix if multiple prefixes exist (e.g., CSCI, MATH, PHYS).
 
+**SU Course Numbering System:** SU uses a 5-digit system where the first two digits are the department code, digits 3-4 are the course number (0-19 = introductory; 20-89 = upper-level; 90+ = advanced special offerings), and digit 5 is the credit hours (0 = zero-credit). Example: `CSCI 1324` = CS dept, course 13, 4 credits. Applied Music uses a different format (e.g., APM8A-001). Lab courses show lecture/lab hours as (3-3) after the course number.
+
 ---
 
 ════════════════════════════════════════════════════════
@@ -258,21 +319,29 @@ Required topic categories to cover at minimum:
 - Every named requirement category from every degree path
 - All individual required courses (by course number AND by name)
 - Course substitution and waiver policies
-- Transfer credit evaluation
-- GPA requirements — overall, major GPA if different, GPA for honors
+- Transfer credit evaluation (note: C- minimum required; P/CR grades not accepted; transfer credits use ELEC-0XX or ELEC-3XX codes)
+- GPA requirements — overall (2.000), major GPA (2.000), GPA for honors
 - Academic standing, probation, dismissal
 - Graduation application process and timeline
 - Prerequisite chains for upper-division courses
-- Double major / dual degree policies
+- Double major / dual degree policies (note: paired majors cannot be declared individually as double majors)
 - Adding or dropping the minor
 - Senior capstone or culminating requirement
-- Advising requirements and appointment processes
+- Advising requirements and appointment processes (note: one meeting per semester required)
 - Course repeat policies
-- Pass/fail grading options
+- Pass/D/F grading options (SU uses Pass/D/F — NOT simply Pass/Fail)
 - Incomplete grade policies
-- Academic calendar and registration deadlines
-- Study abroad credit applicability
+- Academic calendar and registration deadlines (add/drop through 8th class day; drop with W through end of week 10)
+- Study abroad credit applicability (up to 19 credits per semester; must work through SAISS)
 - Internship or experiential learning credit
+- Paideia curriculum requirements (FYS/AES, Language & Cultures, Power and Justice, FRA, Exploration & Breadth)
+- Paideia with Distinction (optional honor — seminar + Symposium presentation + intensive option)
+- Credit by examination (AP scores of 4-5; IB score of 5+ on higher-level; CAPE scores of 1-2; CLEP; departmental advanced standing)
+- Language placement exemption process
+- Financial holds and their impact on registration, transcripts, and diplomas
+- Tuition refund schedule (80%/60%/50%/40%/30%/0% by week)
+- Study abroad programs available (London Semester, ISEP Exchange, NYAP, CHIP, College Year in Athens)
+- SURF and faculty-mentored research opportunities
 
 ---
 
@@ -313,25 +382,83 @@ SECTION 7 — CROSS-REFERENCE FLAGS
 ════════════════════════════════════════════════════════
 
 List every topic where this major's documents are INCOMPLETE and a complete
-answer requires consulting the /general university policy documents.
+answer requires consulting the /general or /financial university policy documents.
+
+The following cross-reference flags are REQUIRED for every major's skills index,
+because these topics are covered only in the university-wide documents:
+
+**Always present (standard flags for all majors):**
+
+- **Topic:** Graduation requirements (credit minimums, residency, GPA)
+  - **What major docs cover:** Major-specific credit hours and courses
+  - **What general docs must cover:** 127-credit minimum, 64-credit SU residency, last 32 in-residence, 2.000 GPA, 60% major residency, Application for Diploma process
+  - **Routing instruction:** Always retrieve `SU_General_Policies.txt` alongside major requirements doc for any graduation eligibility question
+
+- **Topic:** Paideia general education requirements
+  - **What major docs cover:** Which major courses satisfy Paideia areas (FA, H, NS, ScS, PJ)
+  - **What general docs must cover:** Full structure of FYS/AES, Language & Cultures, FRA, Power and Justice, Exploration & Breadth Parts I and II, Paideia with Distinction
+  - **Routing instruction:** Always retrieve `SU_General_Policies.txt` for any question about gen-ed, breadth requirements, or Paideia
+
+- **Topic:** Pass/D/F grading option
+  - **What major docs cover:** May note restrictions (e.g., courses that cannot be taken P/D/F)
+  - **What general docs must cover:** Full Pass/D/F policy, deadlines to switch, GPA impact
+  - **Routing instruction:** Retrieve `SU_General_Policies.txt` for any grading option question
+
+- **Topic:** Academic probation, dismissal, and appeal
+  - **What major docs cover:** Typically not covered
+  - **What general docs must cover:** Good Standing definition, Warning, Probation, Dismissal thresholds, Academic Standards Committee appeal process
+  - **Routing instruction:** Always retrieve `SU_General_Policies.txt`
+
+- **Topic:** Transfer credit rules
+  - **What major docs cover:** May specify which transfer courses count toward major
+  - **What general docs must cover:** C- minimum required; P/CR grades not accepted; ELEC-0XX/3XX coding; 60% major residency rule; AP/IB/CAPE/CLEP policies
+  - **Routing instruction:** Retrieve both major doc and `SU_General_Policies.txt`
+
+- **Topic:** Study abroad credit and programs
+  - **What major docs cover:** May note study abroad applicability to major
+  - **What general docs must cover:** SAISS process, approved programs (London, ISEP, NYAP, CHIP, CYA), deadlines, up to 19 transfer credits per semester, financial aid applicability
+  - **Routing instruction:** Retrieve `SU_Resources_and_Financial.txt` for program details; retrieve `SU_General_Policies.txt` for credit transfer rules
+
+- **Topic:** Financial aid impact of credit load changes or withdrawal
+  - **What major docs cover:** Not covered
+  - **What general docs must cover:** Withdrawal and financial aid impact, tuition refund schedule, part-time financial aid thresholds
+  - **Routing instruction:** Always retrieve `SU_Resources_and_Financial.txt`
+
+- **Topic:** Tuition refund schedule
+  - **What major docs cover:** Not covered
+  - **What general docs must cover:** 80%/60%/50%/40%/30%/0% by week; summer refund schedule; room no-refund rule
+  - **Routing instruction:** Always retrieve `SU_Resources_and_Financial.txt`
+
+- **Topic:** Internship and experiential learning opportunities
+  - **What major docs cover:** Major-specific internship requirements or courses
+  - **What general docs must cover:** Academic vs. funded internship distinction, SURF, King Creativity Fund, health professions shadowing (St. David's, Houston Methodist), NYAP, CHIP
+  - **Routing instruction:** Retrieve `SU_Resources_and_Financial.txt` for program details
+
+- **Topic:** Latin Honors and Paideia with Distinction
+  - **What major docs cover:** May reference Departmental Honors (thesis/project)
+  - **What general docs must cover:** Cum Laude/Magna Cum Laude/Summa Cum Laude GPA thresholds, Dean's List criteria, Paideia with Distinction requirements and deadlines
+  - **Routing instruction:** Always retrieve `SU_General_Policies.txt`
+
+- **Topic:** Disability accommodations and course substitution
+  - **What major docs cover:** Not covered
+  - **What general docs must cover:** Services for Students with Disabilities, ADA accommodations, disability-related course substitution policy and appeals
+  - **Routing instruction:** Always retrieve `SU_General_Policies.txt`; direct student to SSD office
 
 For each flag:
 
 - **Topic:** [topic name]
 - **What major docs cover:** [what partial information exists in major docs]
-- **What general docs must cover:** [what is missing and must come from /general]
+- **What general docs must cover:** [what is missing and must come from /general or /financial]
 - **Routing instruction:** [e.g., "Always retrieve both `cs_requirements.txt`
-  AND a general policy document when this topic appears in a query"]
+  AND `SU_General_Policies.txt` when this topic appears in a query"]
 
-Common cross-reference flags to watch for:
-- Academic withdrawal and refund deadlines
+Additional cross-reference flags to watch for beyond the standard set above:
 - Grade appeal procedures
-- Financial aid impact of credit load changes
-- Academic probation and dismissal appeals
 - Leave of absence policies
-- Disability accommodations process
-- Graduation honors (Latin honors) GPA thresholds
 - Veterans benefits and enrollment certification
+- Course repeat policies (and GPA recalculation rules)
+- Second baccalaureate degree requirements (127 + 30 additional credits; distinct major required)
+- Paired major restrictions (cannot minor in either discipline; cannot declare as double major)
 
 ---
 
@@ -378,6 +505,22 @@ routing"]
 **Always escalate to human advisor:**
 [list any question types that should never be answered by the AI alone —
 e.g., exceptions to policy, academic appeals, financial decisions]
+
+**Always retrieve `SU_General_Policies.txt` alongside major docs when:**
+- Any graduation eligibility or credit count question
+- Any Paideia / general education requirement question
+- Any grading policy question (Pass/D/F, grade appeals, incomplete grades)
+- Any academic standing question (probation, dismissal, appeal)
+- Any transfer credit or credit-by-examination question
+- Any disability accommodation question
+- Any honors or distinction question (Latin Praise, Departmental Honors, Paideia with Distinction)
+
+**Always retrieve `SU_Resources_and_Financial.txt` alongside major docs when:**
+- Any study abroad program question (deadlines, eligibility, credit transfer)
+- Any financial aid or tuition question
+- Any refund or withdrawal-and-money question
+- Any internship funding question (SURF, King Creativity Fund, funded internships)
+- Any health professions experience question (St. David's, Houston Methodist)
 
 ---
 

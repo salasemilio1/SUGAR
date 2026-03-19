@@ -30,14 +30,14 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 # Call 1: Router
 # Gemma 3 4b works for this, as we stress test the system, it wouldn't be a bad idea to upgrade to 12b or even 27b
-MODEL_ROUTER = os.getenv("MODEL_ROUTER", "gemma-3-4b-it")
+MODEL_ROUTER = os.getenv("MODEL_ROUTER", "gemma-3-12b-it")
 
 # Call 2: Retriever
 MODEL_RETRIEVER = os.getenv("MODEL_RETRIEVER", "gemini-3.1-flash-lite-preview")
 
 # Call 3: Answerer (Synthesis)
 MODEL_ANSWERER = os.getenv("MODEL_ANSWERER", "gemini-3.1-flash-lite-preview")
-# MODEL_ANSWERER = os.getenv("MODEL_ANSWERER", "gemma-3-27b-it")
+# MODEL_ANSWERER = os.getenv("MODEL_ANSWERER", "gemini-3-flash-preview")
 
 # Default fallback if no model is specified
 DEFAULT_MODEL = os.getenv("GEMINI_MODEL", MODEL_ANSWERER)
